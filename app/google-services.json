@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "938724598411",
+    "firebase_url": "https://facerecog-1534035647905.firebaseio.com",
+    "project_id": "facerecog-1534035647905",
+    "storage_bucket": "facerecog-1534035647905.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938724598411:android:6962c6ddf69cb57a",
+        "android_client_info": {
+          "package_name": "com.facedetection.sugihart.facedetection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938724598411-bl6kuom2h2g73lbccoar4ia0rho7769g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-lbQ1wUgPKwZ2nplxrh6fzZNywBeKPLQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

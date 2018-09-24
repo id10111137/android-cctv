@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LiveSceneAddEdit"
+    android:paddingTop="20dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/logintxt"
+        >
+        <EditText
+            android:id="@+id/scene_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nama Scene"
+            android:drawablePadding="10dp"
+            style="@style/StyledTilEditText"
+            />
+    </android.support.design.widget.TextInputLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/logintxt"
+            android:layout_weight="1"
+            >
+            <EditText
+                android:id="@+id/scene_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Link Scene"
+                android:drawablePadding="10dp"
+                style="@style/StyledTilEditText"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/tap_scene"
+            android:id="@+id/scan_barcode"
+            />
+        <Button
+            android:layout_below="@+id/scan_barcode"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:text="Tambah"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/bg_white"
+            android:background="@drawable/btnlogin3d"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            android:id="@+id/btn_add_edit"
+            android:layout_marginBottom="10dp"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>

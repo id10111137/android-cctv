@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.facedetection.sugihart.facedetection.LoginActivity"
+    android:background="@drawable/i2_background_trans"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_marginTop="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:src="@drawable/i2_aegislogo"
+
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="#3d3d3d"
+            android:text="Log In"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="bold"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="10dp"
+            />
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp"
+            >
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:hint="Email"
+                    android:background="@drawable/input_transaparant"
+                    android:drawableStart="@drawable/i2_acount"
+                    android:drawablePadding="10dp"
+                    android:padding="8dp"
+                    android:layout_marginBottom="10dp"
+                    />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/i2_pw"
+                android:drawablePadding="5dp"
+                android:padding="8dp"
+                android:background="@drawable/input_transaparant"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            >
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Remember Me"
+                android:layout_weight="1"
+                />
+            <Button
+
+                android:layout_width="180dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:text="Sign in"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/bg_white"
+                android:background="@drawable/btnlogin3d"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="3"
+                android:shadowDy="2"
+                android:shadowRadius="8"
+                android:textSize="14dp"
+                android:padding="5dp"
+                android:textStyle="bold"
+                android:id="@+id/btn_login"
+                android:layout_marginBottom="10dp"
+                />
+
+
+
+        </LinearLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Forgot Password?"
+            android:textAlignment="center"
+            />
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/prog_loading"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

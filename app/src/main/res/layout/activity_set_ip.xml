@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SetIP">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/line_ip"
+        android:layout_centerVertical="true"
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="IP Server"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:layout_margin="5dp"
+            android:background="@color/control_light"
+            android:padding="6dp"
+            android:id="@+id/txtip"
+            android:text="http://devcctv.sugihartdigital.id/"
+            />
+        <ImageView
+            android:layout_weight="2"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/barcode"
+            android:id="@+id/scan_barcode"
+            />
+    </LinearLayout>
+
+    <Button
+        android:layout_below="@+id/line_ip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/btn_save"
+        />
+</RelativeLayout>

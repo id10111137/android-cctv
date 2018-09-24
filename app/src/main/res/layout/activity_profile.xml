@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Profile"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/toolbarColor"
+        android:layout_width="match_parent"
+        android:id="@+id/toolbar2"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <ImageView
+                android:layout_marginTop="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:src="@drawable/i2_aegislogo"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/control_light"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp"
+        >
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/default_pp"
+            android:id="@+id/img_profile"
+
+            />
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            >
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/camera"
+                android:layout_marginTop="70dp"
+                android:id="@+id/img_takecamera"
+                android:layout_marginLeft="90dp"
+                />
+        </LinearLayout>
+        <EditText
+            android:layout_below="@+id/img_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Evelyn Jaslin  "
+            android:textColor="@color/black"
+            android:id="@+id/etFullname"
+            android:layout_centerHorizontal="true"
+            android:background="@null"
+            />
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/img_profile"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/pencil"
+            android:id="@+id/pencil_fullname"
+            android:layout_toRightOf="@+id/etFullname"
+            />
+
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/line_input"
+                android:orientation="horizontal"
+                >
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/logintxt"
+                    android:layout_weight="1"
+                    >
+                    <EditText
+                        android:id="@+id/etEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:hint="Email"
+                        android:text="arifpermadi999@gmail.com"
+                        style="@style/StyledTilEditText"
+                        android:drawableRight="@drawable/pencil"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/line_input"
+                android:orientation="horizontal"
+                >
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/logintxt"
+                    android:layout_weight="1"
+                    >
+                    <EditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="Password"
+                        android:text="***********"
+                        style="@style/StyledTilEditText"
+                        android:drawableRight="@drawable/pencil"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/line_input"
+                android:orientation="horizontal"
+                >
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/logintxt"
+                    android:layout_weight="1"
+                    >
+                    <EditText
+                        android:id="@+id/etPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:hint="Phone"
+                        android:text="08989898"
+                        style="@style/StyledTilEditText"
+                        android:drawableRight="@drawable/pencil"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/line_input"
+                android:orientation="horizontal"
+                >
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/logintxt"
+                    android:layout_weight="1"
+                    >
+                    <EditText
+                        android:id="@+id/etAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:hint="Address"
+                        android:text="Pondok Tanah Mas Block C 24 no 1B"
+                        style="@style/StyledTilEditText"
+                        android:drawableRight="@drawable/pencil"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_upload_server"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Simpan"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:textColor="@color/bg_white"
+                android:background="@drawable/btnlogin3d"
+                />
+        </LinearLayout><!--content input-->
+    </ScrollView>
+
+</LinearLayout>

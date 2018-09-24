@@ -1,0 +1,74 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar" >
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#ffffff</item>
+        <item name="colorPrimaryDark">#008CB2</item>
+        <item name="colorAccent">#000000</item>
+        <item name="colorControlNormal">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="actionBarStyle">@style/ActionBarStyle</item>
+        <item name="titleTextColor">@android:color/black</item>
+        <item name="subtitleTextColor">@android:color/black</item>
+    </style>
+
+    <style name="ActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="android:titleTextStyle">@style/TitleBarTextColor</item>
+    </style>
+
+    <style name="TitleBarTextColor" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">#000000</item>
+    </style>
+    <!--Menu-->
+
+
+
+    <style name="soalstyle">
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="StyledTilEditTextTheme">
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:singleLine">true</item>
+        <item name="colorControlNormal">@color/control</item>
+        <item name="colorControlActivated">@color/control</item>
+        <item name="android:textColorPrimary">@color/control</item>
+        <item name="android:textSize">8pt</item>
+    </style>
+
+    <style name="line_input">
+        <item name="android:paddingLeft">3dp</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
+    </style>
+
+    <style name="img_icon_input">
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+    </style>
+
+    <style name="StyledTilEditText">
+        <item name="android:theme">@style/StyledTilEditTextTheme</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">20dp</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="logintxt" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/control</item>
+        <item name="android:textColorHint">@color/control</item>
+        <item name="colorControlNormal">@color/control</item>
+        <item name="colorControlActivated">@color/control</item>
+        <item name="colorControlHighlight">@color/control</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+</resources>

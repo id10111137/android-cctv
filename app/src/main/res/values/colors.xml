@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#af0e0e</color>
+    <color name="toolbarColor">#ffffff</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#3a3a3a</color>
+    <color name="control_light">#f4f4f4</color>
+    <color name="control">#797777</color>
+    <color name="blue">#0077ff</color>
+    <color name="black">#000000</color>
+    <color name="orange">#ffab19</color>
+    <!--bootstrap-->
+    <color name="black_base">#3a3a3a</color>
+    <color name="bg_red">#d9534f</color>
+    <color name="bg_primary">#428bca</color>
+    <color name="bg_blue">#5bc0de</color>
+    <color name="bg_green">#5cb85c</color>
+    <color name="bg_white">#f9f9f9</color>
+</resources>

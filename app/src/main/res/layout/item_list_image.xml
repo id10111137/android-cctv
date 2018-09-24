@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/bg_white"
+    android:padding="2dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/gray_btn_bg_color"
+        >
+        <ImageView
+            android:layout_weight="2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/img_log"
+            android:src="@drawable/log1"
+
+            />
+
+        <!--android:button="@drawable/checkbox_custom"-->
+
+        <CheckBox
+            android:layout_gravity="center"
+            android:button="@drawable/checkbox_custom"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:checked="true"
+            android:visibility="gone"
+            android:id="@+id/item_check"
+            />
+        <!--<RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:id="@+id/rGroup"
+            >
+        </RadioGroup>
+-->
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/line_desc"
+            android:layout_marginTop="7dp"
+            android:visibility="gone"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20 Januari 2018"
+                android:drawableLeft="@drawable/ic_date_range_grey_800_24dp"
+                android:drawablePadding="10dp"
+                android:textSize="18dp"
+                android:id="@+id/txttgl"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="08:00"
+                android:drawableLeft="@drawable/ic_alarm_grey_800_24dp"
+                android:drawablePadding="10dp"
+                android:textSize="18dp"
+                android:id="@+id/txttime"
+                android:textStyle="bold"
+                />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+    <!--
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#e7e5e5"
+        ></LinearLayout>-->
+</LinearLayout>

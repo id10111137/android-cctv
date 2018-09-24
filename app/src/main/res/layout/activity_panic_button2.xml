@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PanicButton2"
+    android:orientation="vertical"
+    >
+    
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/logintxt"
+        >
+        <EditText
+            android:id="@+id/etNama"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Nama"
+            android:drawableStart="@drawable/ic_account_box_grey_800_48dp"
+            android:drawablePadding="10dp"
+            style="@style/StyledTilEditText"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/logintxt"
+        >
+        <EditText
+            android:id="@+id/etAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Alamat"
+            android:drawableStart="@drawable/ic_account_box_grey_800_48dp"
+            android:drawablePadding="10dp"
+            style="@style/StyledTilEditText"
+            />
+    </android.support.design.widget.TextInputLayout>
+    <com.google.android.gms.maps.MapView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/map_view"
+        >
+
+    </com.google.android.gms.maps.MapView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kirim Ke : "
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <CheckBox
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Polisi"
+            />
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Satpam"
+            />
+    </LinearLayout>
+
+    <Button
+
+        android:layout_width="match_parent"
+        android:text="Kirim"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/bg_white"
+        android:background="@color/bg_blue"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:id="@+id/btn_login"
+        android:layout_marginBottom="10dp"
+        android:layout_height="40dp" />
+    <!--<android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/logintxt"
+        >
+        <EditText
+            android:id="@+id/etAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Alamat"
+            android:drawableStart="@drawable/ic_account_box_grey_800_48dp"
+            android:drawablePadding="10dp"
+            style="@style/StyledTilEditText"
+            />
+    </android.support.design.widget.TextInputLayout>-->
+
+</LinearLayout>
