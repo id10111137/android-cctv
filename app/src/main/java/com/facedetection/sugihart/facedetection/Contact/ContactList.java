@@ -1,4 +1,4 @@
-package com.facedetection.sugihart.facedetection;
+package com.facedetection.sugihart.facedetection.Contact;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facedetection.sugihart.facedetection.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,14 +42,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class UserList extends AppCompatActivity {
-    String[] name_user;
-    String[] phone_user;
-    Integer[] id_user;
+public class ContactList extends AppCompatActivity {
+    String[] name_contact;
+    String[] phone_contact;
+    Integer[] id_contact;
 
-    String[] name_user_temp;
-    String[] phone_user_temp;
-    Integer[] id_user_temp;
+    String[] name_contact_temp;
+    String[] phone_contact_temp;
+    Integer[] id_contact_temp;
     int pos_delete = 0;
 
     String base_url_ip;
@@ -56,29 +58,33 @@ public class UserList extends AppCompatActivity {
     TextView txtnodata;
     ImageView btn_delete;
     EditText txtsearch;
-    public static UserList CL;
+    public static ContactList CL;
     ArrayAdapter<String> ContactAdapter;
     SwipeRefreshLayout swiperefresh;
-    FloatingActionButton add_button;
-    String form;
     void init(){
         swiperefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
-
-
+        FloatingActionButton add_button = (FloatingActionButton) findViewById(R.id.add_button);
+        add_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(getApplicationContext(),EditAddContact.class);
+                in.putExtra("Event","Add");
+                startActivity(in);
+            }
+        });
         SharedPreferences pref = getApplicationContext().getSharedPreferences("pref_face_detection",0);
         TokenSession = pref.getString("token", null);
-        form = pref.getString("form", null);
         base_url_ip = pref.getString("base_url", null);
+        Toast.makeText(getApplicationContext(), base_url_ip, Toast.LENGTH_SHORT).show();
         grid = (GridView) findViewById(R.id.grid);
         txtnodata = (TextView) findViewById(R.id.txtnodata);
         CL = this;
         txtsearch = (EditText) findViewById(R.id.txtsearch);
-        add_button = (FloatingActionButton) findViewById(R.id.add_button);
         swiperefresh.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        getDataUser();
+                        getDataContact();
                     }
                 }
         );
@@ -103,30 +109,20 @@ public class UserList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_list);
-        init();
-        getSupportActionBar().setTitle(form);
+        setContentView(R.layout.activity_contact_list);
+
+        getSupportActionBar().setTitle("Contact");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_black_small);
-
-        add_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent in2 = new Intent(getApplicationContext(),UserEditAdd.class);
-                in2.putExtra("form",form);
-                in2.putExtra("Event","Add");
-                startActivity(in2);
-            }
-        });
+        init();
         swiperefresh.setRefreshing(true);
         if(isOnline(getApplicationContext())){
-            getDataUser();
+            getDataContact();
         }else{
 
             swiperefresh.setRefreshing(false);
-            new SweetAlertDialog(UserList.this, SweetAlertDialog.ERROR_TYPE)
+            new SweetAlertDialog(ContactList.this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("Error")
                     .setContentText("Tidak Ada Koneksi :( ")
                     .setConfirmText("Oke")
@@ -157,27 +153,27 @@ public class UserList extends AppCompatActivity {
         tempint.clear();
         //name
         try{
-            for(int i=0;i<name_user.length;i++){
-                if(textLength <= name_user[i].length()){
-                    if(txtsearch.getText().toString().equalsIgnoreCase((String)name_user[i].subSequence(0,textLength))){
-                        temp.add(name_user[i]);
-                        tempint.add(id_user[i]);
-                        temp_telepon.add(phone_user[i]);
+            for(int i=0;i<name_contact.length;i++){
+                if(textLength <= name_contact[i].length()){
+                    if(txtsearch.getText().toString().equalsIgnoreCase((String)name_contact[i].subSequence(0,textLength))){
+                        temp.add(name_contact[i]);
+                        tempint.add(id_contact[i]);
+                        temp_telepon.add(phone_contact[i]);
 
                     }
                 }
             }
-            name_user_temp = new String[temp.size()];
-            name_user_temp = temp.toArray(name_user_temp);
+            name_contact_temp = new String[temp.size()];
+            name_contact_temp = temp.toArray(name_contact_temp);
 
-            phone_user_temp = new String[temp_telepon.size()];
-            phone_user_temp = temp_telepon.toArray(phone_user_temp);
+            phone_contact_temp = new String[temp_telepon.size()];
+            phone_contact_temp = temp_telepon.toArray(phone_contact_temp);
 
             //id
-            id_user_temp = new Integer[tempint.size()];
-            id_user_temp = tempint.toArray(id_user_temp);
+            id_contact_temp = new Integer[tempint.size()];
+            id_contact_temp = tempint.toArray(id_contact_temp);
 
-            ContactAdapter = new UserList.ListUserAdapter(UserList.this);
+            ContactAdapter = new ListContactAdapter(ContactList.this);
             grid.setAdapter(ContactAdapter);
             ((ArrayAdapter)grid.getAdapter()).notifyDataSetInvalidated();
 
@@ -187,20 +183,15 @@ public class UserList extends AppCompatActivity {
 
         //event_grid();
     }
-    public void getDataUser(){
+    public void getDataContact(){
         OkHttpClient client = new OkHttpClient();
         client.cache();
         //Toast.makeText(this, TokenSession, Toast.LENGTH_SHORT).show();
-        String url = "";
-        if(form.equals("User")){
-            url = base_url_ip + "api/getuserlist";
-        }else{
-            url = base_url_ip + "api/getsecurity";
-        }
+
         FormBody body = new FormBody.Builder()
                 .add("test","test").build();
         Request req = new Request.Builder()
-                .url(url)
+                .url(base_url_ip + "api/partnerlist")
                 .post(body)
                 .addHeader("Authorization","Bearer " + TokenSession)
                 .addHeader("Accept","application/json")
@@ -219,7 +210,7 @@ public class UserList extends AppCompatActivity {
                     new IOException("error");
                 }
                 final String responsebody = response.body().string();
-                UserList.this.runOnUiThread(new Runnable() {
+                ContactList.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -228,25 +219,25 @@ public class UserList extends AppCompatActivity {
                             JSONObject jsonobject = new JSONObject(responsebody);
                             JSONArray DataArray = jsonobject.getJSONArray("data");
 
-                            name_user = new String[DataArray.length()];
-                            phone_user = new String[DataArray.length()];
-                            id_user =new Integer[DataArray.length()];
+                            name_contact = new String[DataArray.length()];
+                            phone_contact = new String[DataArray.length()];
+                            id_contact =new Integer[DataArray.length()];
 
-                            name_user_temp = new String[DataArray.length()];
-                            phone_user_temp = new String[DataArray.length()];
-                            id_user_temp =new Integer[DataArray.length()];
+                            name_contact_temp = new String[DataArray.length()];
+                            phone_contact_temp = new String[DataArray.length()];
+                            id_contact_temp =new Integer[DataArray.length()];
                             for(int i=0;i<DataArray.length();i++){
                                 JSONObject jsonfinal = DataArray.getJSONObject(i);
-                                name_user[i] = jsonfinal.getString("name");
-                                phone_user[i] = "000";
-                                id_user[i] = jsonfinal.getInt("id");
+                                name_contact[i] = jsonfinal.getString("name");
+                                phone_contact[i] = jsonfinal.getString("phone");
+                                id_contact[i] = jsonfinal.getInt("id");
 
-                                name_user_temp[i] = name_user[i];
-                                phone_user_temp[i] =phone_user[i];
-                                id_user_temp[i] = id_user[i];
+                                name_contact_temp[i] = name_contact[i];
+                                phone_contact_temp[i] =phone_contact[i];
+                                id_contact_temp[i] = id_contact[i];
                             }
                             if (DataArray.length() > 0){
-                                ContactAdapter = new UserList.ListUserAdapter(UserList.this);
+                                ContactAdapter = new ListContactAdapter(ContactList.this);
                                 grid.setAdapter(ContactAdapter);
                                 ((ArrayAdapter)grid.getAdapter()).notifyDataSetInvalidated();
 
@@ -254,15 +245,15 @@ public class UserList extends AppCompatActivity {
                                 event_grid();
                             }else{
                                 txtnodata.setText("No Data Available");
-                                ContactAdapter = new UserList.ListUserAdapter(UserList.this);
+                                ContactAdapter = new ListContactAdapter(ContactList.this);
                                 grid.setAdapter(ContactAdapter);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
 
-                            txtnodata.setText("No Data Available");
                             swiperefresh.setRefreshing(false);
                             Log.d("ERRRor",e.getMessage());
+                            Toast.makeText(ContactList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -276,14 +267,14 @@ public class UserList extends AppCompatActivity {
             grid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                    //deleteDataContact(id_user[position]);
+                    //deleteDataContact(id_contact[position]);
                     //btn_delete.setVisibility(View.VISIBLE);
                     list_click = true;
                     grid.setItemChecked(position, true);
 
-                    new SweetAlertDialog(UserList.this, SweetAlertDialog.WARNING_TYPE)
+                    new SweetAlertDialog(ContactList.this, SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("Apakah Anda Yakin?")
-                            .setContentText("Jika iya data akan hilang selamanya")
+                            .setContentText("Jika iya data anda akan hilang selamanya")
                             .setConfirmText("Iya")
                             .setCancelText("Tidak")
                             .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -297,11 +288,11 @@ public class UserList extends AppCompatActivity {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     if(position == 0){
-                                        id_user_temp =new Integer[0];
-                                        deleteDataContact(id_user[position]);
+                                        id_contact_temp =new Integer[0];
+                                        deleteDataContact(id_contact[position]);
 
                                     }else{
-                                        deleteDataContact(id_user_temp[position]);
+                                        deleteDataContact(id_contact_temp[position]);
                                     }
                                     sDialog.dismissWithAnimation();
                                     list_click = false;
@@ -319,15 +310,14 @@ public class UserList extends AppCompatActivity {
                     try{
 
                         if (!list_click){
-                            Intent in2 = new Intent(getApplicationContext(),UserEditAdd.class);
-                            in2.putExtra("id_user",id_user_temp[position]);
-                            in2.putExtra("form",form);
+                            Intent in2 = new Intent(getApplicationContext(),EditAddContact.class);
+                            in2.putExtra("id_contact",id_contact_temp[position]);
                             in2.putExtra("Event","Detail");
                             startActivity(in2);
 
                         }
                     }catch (Exception ex){
-                        Toast.makeText(UserList.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ContactList.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                     //finish();
 
@@ -340,23 +330,23 @@ public class UserList extends AppCompatActivity {
         }
 
     }
-    public class ListUserAdapter extends ArrayAdapter<String> {
+    public class ListContactAdapter extends ArrayAdapter<String> {
 
-        public ListUserAdapter(Context ctx) {
-            super(ctx, R.layout.item_list_user, name_user_temp);
+        public ListContactAdapter(Context ctx) {
+            super(ctx, R.layout.item_list_contact, name_contact_temp);
         }
         public View getView(int position , View cView, ViewGroup parent){
             View row = cView;
             if(row == null){
                 LayoutInflater lay = getLayoutInflater();
-                row = lay.inflate(R.layout.item_list_user,parent,false);
+                row = lay.inflate(R.layout.item_list_contact,parent,false);
             }
-            //ImageView img_user = (ImageView) row.findViewById(R.id.img_user);
+            //ImageView img_contact = (ImageView) row.findViewById(R.id.img_contact);
             TextView txtname = (TextView) row.findViewById(R.id.txtname);
             TextView txtphone = (TextView) row.findViewById(R.id.txtphone);
 
-            txtname.setText(name_user_temp[position]);
-            txtphone.setText(phone_user_temp[position]);
+            txtname.setText(name_contact_temp[position]);
+            txtphone.setText(phone_contact_temp[position]);
 
             return row;
         }
@@ -371,7 +361,7 @@ public class UserList extends AppCompatActivity {
         // if running on emulator return true always.
         return android.os.Build.MODEL.equals("google_sdk");
     }
-    public void deleteDataContact(Integer id_user_par){
+    public void deleteDataContact(Integer id_contact_par){
         OkHttpClient client = new OkHttpClient();
         client.cache();
         SharedPreferences pref = getApplicationContext().getSharedPreferences("pref_face_detection",0);
@@ -379,7 +369,7 @@ public class UserList extends AppCompatActivity {
         //Toast.makeText(this, TokenSession, Toast.LENGTH_SHORT).show();
 
         FormBody body = new FormBody.Builder()
-                .add("id", String.valueOf(id_user_par)).build();
+                .add("id", String.valueOf(id_contact_par)).build();
         Request req = new Request.Builder()
                 .url(base_url_ip + "api/partner_delete")
                 .post(body)
@@ -400,7 +390,7 @@ public class UserList extends AppCompatActivity {
                     new IOException("error");
                 }
                 final String responsebody = response.body().string();
-                UserList.this.runOnUiThread(new Runnable() {
+                ContactList.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Log.d("JSON RESULT : ",responsebody);
@@ -408,15 +398,15 @@ public class UserList extends AppCompatActivity {
                             JSONObject jsonobject = new JSONObject(responsebody);
                             String result = jsonobject.getString("success").toString();
 
-                            new SweetAlertDialog(UserList.this, SweetAlertDialog.SUCCESS_TYPE)
+                            new SweetAlertDialog(ContactList.this, SweetAlertDialog.SUCCESS_TYPE)
                                     .setTitleText("Success Delete Data :)")
                                     .setConfirmText("Oke")
                                     .show();
-                            getDataUser();
+                            getDataContact();
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.d("ERRRor",e.getMessage());
-                            Toast.makeText(UserList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ContactList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
 

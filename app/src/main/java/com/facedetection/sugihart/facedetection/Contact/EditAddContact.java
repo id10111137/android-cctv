@@ -1,4 +1,4 @@
-package com.facedetection.sugihart.facedetection;
+package com.facedetection.sugihart.facedetection.Contact;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -18,8 +17,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,15 +27,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
+import com.facedetection.sugihart.facedetection.AddLogImage;
+import com.facedetection.sugihart.facedetection.CircleTransform;
+import com.facedetection.sugihart.facedetection.ExceptionHandler;
+import com.facedetection.sugihart.facedetection.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,11 +43,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.Call;
@@ -95,6 +87,7 @@ public class EditAddContact extends AppCompatActivity {
     String temp_array_galery[];
 
     boolean[] FromLog = new boolean[100];
+    /*boolean[] LogImage = new boolean[100];*/
     void init() {
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("pref_face_detection",0);
@@ -134,6 +127,7 @@ public class EditAddContact extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         EAC = this;
         type_event = getIntent().getStringExtra("Event").toString();
         try{
@@ -156,15 +150,35 @@ public class EditAddContact extends AppCompatActivity {
             add_log.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent in = new Intent(getApplicationContext(),AddLogImage.class);
-                    in.putExtra("From","Contact");
-                    in.putExtra("id_log",id_log);
-                    in.putExtra("date_log",date_log);
-                    in.putExtra("time_log",time_log);
-                    in.putExtra("img_log",img_log);
-                    in.putExtra("FromLog_",FromLog );
-                    in.putExtra("nLog",nLog);
-                    startActivity(in);
+                    final CharSequence[] dialogitem = {"Kamera","Galery","Log"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(EditAddContact.this);
+                    builder.setTitle("Menu");
+                    builder.setItems(dialogitem, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch(which) {
+                                case 0:
+                                    TakeCamera();
+                                    break;
+                                case 1:
+                                    Uploadimage();
+                                    break;
+                                case 2:
+
+                                    Intent in = new Intent(getApplicationContext(),AddLogImage.class);
+                                    in.putExtra("From","Contact");
+                                    in.putExtra("id_log",id_log);
+                                    in.putExtra("date_log",date_log);
+                                    in.putExtra("time_log",time_log);
+                                    in.putExtra("img_log",img_log);
+                                    in.putExtra("FromLog_",FromLog );
+                                    in.putExtra("nLog",nLog);
+                                    startActivity(in);
+                                    break;
+                            }
+                        }
+                    });
+                    builder.create().show();
                  }
             });
 
@@ -222,8 +236,9 @@ public class EditAddContact extends AppCompatActivity {
                     String[] time_ = getIntent().getStringArrayExtra("time_");
                     String[] img_ =getIntent().getStringArrayExtra("img_");
                     boolean[] FromLog_ =getIntent().getBooleanArrayExtra("FromLog_");
+                    /*boolean[] LogImage_ =getIntent().getBooleanArrayExtra("LogImage_");*/
                     pos = getIntent().getIntExtra("pos",0);
-                    setAdapterLogFromCheck(id_,date_,time_,img_,FromLog_);
+                    setAdapterLogFromCheck(id_,date_,time_,img_,FromLog_/*LogImage_*/);
                 }catch (Exception ex){
                     Toast.makeText(EAC, ex.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -259,8 +274,7 @@ public class EditAddContact extends AppCompatActivity {
                 add_galery.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(EditAddContact.this, "kampret", Toast.LENGTH_SHORT).show();
-                        final CharSequence[] dialogitem = {"Kamera","Galery"};
+                        final CharSequence[] dialogitem = {"Kamera","Galery","Log"};
                         AlertDialog.Builder builder = new AlertDialog.Builder(EditAddContact.this);
                         builder.setTitle("Menu");
                         builder.setItems(dialogitem, new DialogInterface.OnClickListener() {
@@ -272,6 +286,18 @@ public class EditAddContact extends AppCompatActivity {
                                         break;
                                     case 1:
                                         Uploadimage();
+                                        break;
+                                    case 2:
+
+                                        Intent in = new Intent(getApplicationContext(),AddLogImage.class);
+                                        in.putExtra("From","Contact");
+                                        in.putExtra("id_log",id_log);
+                                        in.putExtra("date_log",date_log);
+                                        in.putExtra("time_log",time_log);
+                                        in.putExtra("img_log",img_log);
+                                        in.putExtra("FromLog_",FromLog );
+                                        in.putExtra("nLog",nLog);
+                                        startActivity(in);
                                         break;
                                 }
                             }
@@ -340,22 +366,25 @@ public class EditAddContact extends AppCompatActivity {
                                     time_log[i] = jsonfinal3.getString("created_at").substring(11).toString();
                                     img_log[i] = jsonfinal3.getString("image").toString();
                                     FromLog[i] = false;
+                                    /*LogImage[i] = false;*/
                                 }
-                                ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) grid.getLayoutParams();
-                                int pos2 = 1;
-                                if (pos % 4 == 0){
-                                     pos2 = pos/4;
-                                }
-                                else if(pos <= 3){
-                                    pos2 = 1;
-                                }
-                                else{
-                                    pos2 = (pos/4) + 1;
-                                }
-                                params.height = pos2 * 200;
-                                grid.setLayoutParams(params);
 
                                 if(jsonArray.length() > 0){
+                                    /*ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) grid.getLayoutParams();
+                                    int pos2 = 1;
+                                    if (pos % 4 == 0){
+                                        pos2 = pos/4;
+                                    }
+                                    else if(pos <= 3){
+                                        pos2 = 1;
+                                    }
+                                    else{
+                                        pos2 = (pos/4) + 1;
+                                    }
+                                    params.height = pos2 * 200;
+                                    grid.setLayoutParams(params);*/
+
+
                                     grid.setAdapter(new LogAdapter(getApplicationContext()));
                                     grid_event();
                                     if (type_event.equals("Detail")){
@@ -370,7 +399,7 @@ public class EditAddContact extends AppCompatActivity {
 
                                 }else{
                                     txttitle.setText("- No Data Available -");
-
+                                    grid.setVisibility(View.INVISIBLE);
                                     txttitle.setVisibility(View.VISIBLE);
                                 }
                             }
@@ -391,126 +420,147 @@ public class EditAddContact extends AppCompatActivity {
         });
     }
     public void AddUpdateData(String Event) {
-        OkHttpClient client = new OkHttpClient();
-        client.cache();
+        try{
+            final OkHttpClient client = new OkHttpClient();
+            client.cache();
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("pref_face_detection", 0);
-        TokenSession = pref.getString("token", null);
-        MultipartBody body;
-        Request req = null;
-        btn_add_edit.setText("Menunggu..");
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("pref_face_detection", 0);
+            TokenSession = pref.getString("token", null);
+            MultipartBody body;
+            Request req = null;
+            btn_add_edit.setText("Menunggu..");
 
-        if(Event.equals("Add")){
+            if(Event.equals("Add")){
 
-            MultipartBody.Builder form_builder = new MultipartBody.Builder();
+                MultipartBody.Builder form_builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
-            form_builder.addFormDataPart("occupation", etOccupation.getText().toString())
-                    .addFormDataPart("name", etName.getText().toString())
-                    .addFormDataPart("address", etAddress.getText().toString())
-                    .addFormDataPart("phone", etPhone.getText().toString());
-            String parseFoto = "";
+                form_builder.addFormDataPart("occupation", etOccupation.getText().toString())
+                        .addFormDataPart("name", etName.getText().toString())
+                        .addFormDataPart("address", etAddress.getText().toString())
+                        .addFormDataPart("phone", etPhone.getText().toString());
+                String parseFoto = "";
 
-            //foto galery
-            for(int i=0;i<countGalery;i++) {
-                RequestBody file_body = RequestBody.create(MediaType.parse(mime[i]), fileimage[i]);
-                form_builder.addFormDataPart("galery[" + String.valueOf(i) + "][galery]","image_galery",file_body).build();
+                //foto galery
+                for(int i=0;i<countGalery;i++) {
+                    RequestBody file_body = RequestBody.create(MediaType.parse(mime[i]), fileimage[i]);
+                    form_builder.addFormDataPart("galery[]","image_galery",file_body).build();
+                }
+
+                //log
+                for(int i=0;i<pos;i++) {
+                    form_builder.addFormDataPart("image[" +  String.valueOf(i) + "][image]",img_log[i]).build();
+                    parseFoto +="image[" +  String.valueOf(i + countGalery) + "][image] = " + img_log[i] + " - ";
+                }
+                /* image[0][image] */
+
+                Log.d("EAC",parseFoto);
+                MultipartBody requestBody = form_builder.build();
+                req = new Request.Builder()
+                        .post(requestBody)
+                        .url( base_url_ip + "api/partnerimageslog")
+                        .addHeader("Authorization", "Bearer " + TokenSession)
+                        .addHeader("Accept", "application/json")
+                        .build();
+
+            }else{
+                MultipartBody.Builder form_builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+                form_builder.addFormDataPart("id", String.valueOf(id_contact))
+                        .addFormDataPart("occupation", etOccupation.getText().toString())
+                        .addFormDataPart("name", etName.getText().toString())
+                        .addFormDataPart("address", etAddress.getText().toString())
+                        .addFormDataPart("phone", etPhone.getText().toString());
+                String parseFoto = "";
+
+                //foto galery
+                for(int i=0;i<countGalery;i++) {
+                    RequestBody file_body = RequestBody.create(MediaType.parse(mime[i]), fileimage[i]);
+                    form_builder.addFormDataPart("galery[]","image_galery",file_body).build();
+                }
+                //log
+                for(int i=0 + pos_edit;i<pos;i++) {
+                    form_builder.addFormDataPart("image[" +  String.valueOf(i + countGalery) + "][image]",img_log[i]).build();
+                    parseFoto +="image[" +  String.valueOf(i + countGalery) + "][image] = " + img_log[i] + " - ";
+                }
+
+
+                MultipartBody requestBody = form_builder.build();
+                req = new Request.Builder()
+                        .post(requestBody)
+                        .url(base_url_ip + "api/partner_update")
+                        .addHeader("Authorization", "Bearer " + TokenSession)
+                        .addHeader("Accept", "application/json")
+                        .build();
+
+
+                Log.d("PARSE FOTO",parseFoto);
             }
+            final Request finalReq = req;
+            client.newCall(finalReq).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
 
-            //log
-            for(int i=0;i<pos;i++) {
-                form_builder.addFormDataPart("image[" +  String.valueOf(i + countGalery) + "][image]",img_log[i]).build();
-                parseFoto +="image[" +  String.valueOf(i + countGalery) + "][image] = " + img_log[i] + " - ";
-            }
-            /* image[0][image] */
+                }
 
-            Log.d("EAC",parseFoto);
-            body = form_builder.build();
-            req = new Request.Builder()
-                    .post(body)
-                    .url( base_url_ip + "api/partnerimageslog")
-                    .addHeader("Authorization", "Bearer " + TokenSession)
-                    .addHeader("Accept", "application/json")
-                    .build();
+                @Override
+                public void onResponse(Call call, final Response response) throws IOException {
+                    final String responsebody = response.body().string();
+                    Log.d("response",responsebody);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                try {
+                                    JSONObject jsonfinal = new JSONObject(responsebody);
+                                    String res = jsonfinal.getString("success").toString();
 
-        }else{
-            FormBody body2;
-            FormBody.Builder form_builder = new FormBody.Builder();
-            form_builder.add("id", String.valueOf(id_contact))
-                    .add("occupation", etOccupation.getText().toString())
-                    .add("name", etName.getText().toString())
-                    .add("address", etAddress.getText().toString())
-                    .add("phone", etPhone.getText().toString());
-            String res = "";
+                                    btn_add_edit.setText(type_event);
+                                    new SweetAlertDialog(EditAddContact.this, SweetAlertDialog.SUCCESS_TYPE)
+                                            .setTitleText("Success")
+                                            .setContentText(type_event + " Data Success :)")
+                                            .setConfirmText("Oke")
+                                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                    //startActivity(new Intent(getApplicationContext(),ContactList.class));
 
-            for(int i=0 + pos_edit;i<pos;i++) {
-                form_builder.add("image[" +  String.valueOf(i - pos_edit) + "][image]",img_log[i]).build();
-            }
+                                                    ContactList.CL.getDataContact();
 
-            body2 = form_builder.build();
-            req = new Request.Builder()
-                    .post(body2)
-                    .url(base_url_ip + "api/partner_update")
-                    .addHeader("Authorization", "Bearer " + TokenSession)
-                    .addHeader("Accept", "application/json")
-                    .build();
+                                                    if (type_event.equals("Update")){
+                                                        Intent in2 = new Intent(getApplicationContext(),EditAddContact.class);
+                                                        in2.putExtra("id_contact",id_contact);
+                                                        in2.putExtra("Event","Detail");
+                                                        startActivity(in2);
+                                                    }
 
+                                                    finish();
+                                                }
+                                            })
+                                            .show();
+
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(EditAddContact.this, "ERROR JSON" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+
+                            } catch (Exception e) {
+                                Toast.makeText(EditAddContact.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+
+                            }
+
+                        }
+                    });
+                }
+            });
+
+
+        }catch (Exception ex){
+            Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        client.newCall(req).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(!response.isSuccessful()){
-                    btn_add_edit.setText(type_event);
-                    new IOException("error");
-                }
-                final String responsebody = response.body().string();
-                EditAddContact.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                            Log.d("RESPONSE",responsebody);
-                        try {
-                            JSONObject jsonfinal = new JSONObject(responsebody);
-                            String res = jsonfinal.getString("success").toString();
-
-                            btn_add_edit.setText(type_event);
-                                new SweetAlertDialog(EditAddContact.this, SweetAlertDialog.SUCCESS_TYPE)
-                                        .setTitleText("Success")
-                                        .setContentText(type_event + " Data Success :)")
-                                        .setConfirmText("Oke")
-                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                            @Override
-                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                //startActivity(new Intent(getApplicationContext(),ContactList.class));
-                                                if (type_event.equals("Update")){
-                                                    ContactList.CL.getDataContact();
-                                                    Intent in2 = new Intent(getApplicationContext(),EditAddContact.class);
-                                                    in2.putExtra("id_contact",id_contact);
-                                                    in2.putExtra("Event","Detail");
-                                                    startActivity(in2);
-                                                }
-
-                                                finish();
-                                            }
-                                        })
-                                        .show();
-
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(EditAddContact.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
-            }
-        });
     }
     public static boolean isOnline(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -551,7 +601,7 @@ public class EditAddContact extends AppCompatActivity {
     //Log
     public void setAdapterLogFromCheck(String[] id_ ,String[] date_ ,String[] time_,String[] img_,boolean[] FromLog_){
         try{
-            ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) grid.getLayoutParams();
+            /*ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) grid.getLayoutParams();
             int pos2 = 1;
             if (pos % 4 == 0){
                 pos2 = pos/4;
@@ -562,13 +612,14 @@ public class EditAddContact extends AppCompatActivity {
             else{
                 pos2 = (pos/4) + 1;
             }
-            params.height = pos2 * 200;
+            params.height = pos2 * 200;*/
             temp_array_log= new String[pos];
             id_log = id_;
             date_log = date_;
             time_log = time_;
             img_log = img_;
             FromLog = FromLog_;
+            /*LogImage = LogImage_;*/
             grid.setAdapter(new LogAdapter(getApplicationContext()));
             grid_event();
         }catch (Exception ex){
@@ -580,7 +631,7 @@ public class EditAddContact extends AppCompatActivity {
         try{
             temp_array_log= new String[pos];
 
-            ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) grid.getLayoutParams();
+            /*ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) grid.getLayoutParams();
             int pos2 = 1;
             if (pos % 4 == 0){
                 pos2 = pos/4;
@@ -592,9 +643,10 @@ public class EditAddContact extends AppCompatActivity {
                 pos2 = (pos/4) + 1;
             }
             params.height = pos2 * 200;
-            grid.setLayoutParams(params);
+            grid.setLayoutParams(params);*/
 
             FromLog[pos - 1] = true;
+            /*LogImage[pos - 1] = true;*/
 
             id_log[pos - 1] = id_;
             date_log[pos - 1] = date_;
@@ -724,27 +776,29 @@ public class EditAddContact extends AppCompatActivity {
                 LayoutInflater lay = getLayoutInflater();
                 row = lay.inflate(R.layout.item_list_image,parent,false);
             }
-                ImageView image_log = (ImageView) row.findViewById(R.id.img_log);
-                TextView txttgl = (TextView) row.findViewById(R.id.txttgl);
-                TextView txttime = (TextView) row.findViewById(R.id.txttime);
+        ImageView image_log = (ImageView) row.findViewById(R.id.img_log);
+        TextView txttgl = (TextView) row.findViewById(R.id.txttgl);
+        TextView txttime = (TextView) row.findViewById(R.id.txttime);
 
-                txttgl.setText(date_log[position]);
-                txttime.setText(time_log[position]);
 
-                String base_url = "";
-                if (type_event.equals("Update") || type_event.equals("Detail")){
-                    base_url =base_url_ip +"api/storage/" /*+ String.valueOf(id_contact) + "/"*/;
-                }else{
+        String base_url = "";
+
+            txttgl.setText(date_log[position]);
+            txttime.setText(time_log[position]);
+
+            if (type_event.equals("Update") || type_event.equals("Detail")){
+                base_url =base_url_ip +"api/storage/" /*+ String.valueOf(id_contact) + "/"*/;
+            }else{
+                base_url = base_url_ip +"api/storagelog/";
+            }
+
+            try{
+                if(FromLog[position]){
                     base_url = base_url_ip +"api/storagelog/";
                 }
-
-                try{
-                    if(FromLog[position]){
-                        base_url = base_url_ip +"api/storagelog/";
-                    }
-                }catch (Exception ex){
-                    //Toast.makeText(EditAddContact.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            }catch (Exception ex){
+                //Toast.makeText(EditAddContact.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+            }
 
             Glide.with(getApplicationContext())
                     .load(base_url + img_log[position])
@@ -753,7 +807,8 @@ public class EditAddContact extends AppCompatActivity {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.progress_animation)
                     .into(image_log);
-                //image_log.setImageResource(img_log[position]);
+            //image_log.setImageResource(img_log[position]);
+
 
 
 
@@ -873,13 +928,15 @@ public class EditAddContact extends AppCompatActivity {
         if(resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             try{
                 ImageUri[countGalery] = data.getData();
+
                 fileimage[countGalery] = new File(getRealPathFromURI(ImageUri[countGalery]));
 
                 ContentResolver cR = getApplicationContext().getContentResolver();
                 mime[countGalery] = cR.getType(ImageUri[countGalery]);
-                countGalery +=1;
 
-                temp_array_galery = new String[countGalery];
+                countGalery+=1;
+
+                temp_array_galery= new String[countGalery];
                 grid_galery.setAdapter(new GaleryAdapter(getApplicationContext()));
             }catch (Exception ex){
                 Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();

@@ -57,8 +57,8 @@
         <activity
             android:name=".Profile"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ContactList" />
-        <activity android:name=".EditAddContact" />
+        <activity android:name=".Contact.ContactList" />
+        <activity android:name=".Contact.EditAddContact" />
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -96,10 +96,9 @@
             android:name=".AddLogImage"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".PanicButton2" />
-        <activity android:name=".UserList" />
-        <activity android:name=".UserEditAdd" />
-        <activity
-            android:name=".LiveStreaming" />
+        <activity android:name=".User.UserList" />
+        <activity android:name=".User.UserEditAdd" />
+        <activity android:name=".LiveStreaming" />
         <activity android:name=".PanicButton3" />
         <activity
             android:name=".Main2Activity"
@@ -120,9 +119,11 @@
         <activity android:name=".RouteNotif">
             <intent-filter>
                 <action android:name=".RouteNotif" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".ErrorHandler"></activity>
     </application>
 
 </manifest>

@@ -80,6 +80,7 @@ public class SetIP extends AppCompatActivity {
                 android.Manifest.permission.READ_EXTERNAL_STORAGE,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 android.Manifest.permission.VIBRATE,
+                android.Manifest.permission.SEND_SMS
         };
         int result;
         List<String> listPermissionsNeeded = new ArrayList<>();

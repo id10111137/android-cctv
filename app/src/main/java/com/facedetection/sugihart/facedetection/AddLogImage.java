@@ -19,27 +19,23 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.ImageView ;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.facedetection.sugihart.facedetection.Contact.EditAddContact;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -445,12 +441,15 @@ public class AddLogImage extends AppCompatActivity {
                                 JSONObject jsonfinal = DataArray.getJSONObject(i);
 
                                 id_log[i] = jsonfinal.getString("id");
-                                date_log[i] = jsonfinal.getString("log").substring(0,10).toString();
-                                time_log[i] = jsonfinal.getString("log").substring(11).toString();
+                                /*date_log[i] = jsonfinal.getString("log").substring(0,10).toString();
+                                time_log[i] = jsonfinal.getString("log").substring(11).toString();*/
+
+                                date_log[i] = "";
+                                time_log[i] = "";
                                 //Toast.makeText(AddLogImage.this, jsonfinal.getString("image"), Toast.LENGTH_SHORT).show();
 
-                                //img_log[i] = jsonfinal.getString("image");
 
+                                //img_log[i] = jsonfinal.getString("image");
                                 img_log[i] = jsonfinal.getString("image");
 
                             }

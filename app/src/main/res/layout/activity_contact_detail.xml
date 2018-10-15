@@ -102,16 +102,17 @@
                     android:layout_marginBottom="10dp"
                     android:visibility="gone"
                     />
-                <GridView
+                <com.facedetection.sugihart.facedetection.MyGridView
                     android:id="@+id/grid"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:stretchMode="columnWidth"
                     android:layout_marginBottom="10dp"
                     android:numColumns="4"
                     android:scrollbarAlwaysDrawVerticalTrack="true"
                     >
 
-                </GridView>
+                </com.facedetection.sugihart.facedetection.MyGridView>
             </LinearLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

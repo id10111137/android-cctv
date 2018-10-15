@@ -135,6 +135,7 @@
             android:orientation="vertical"
             >
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -144,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
-                    android:text="Contact Face Image"
+                    android:text="Galery Face Image"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif-condensed"
@@ -157,6 +158,7 @@
                     android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:visibility="gone"
                     />
             </LinearLayout>
 
@@ -165,17 +167,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@color/control"
+                android:visibility="gone"
                 ></LinearLayout>
 
-            <GridView
-                android:id="@+id/grid_phone"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginBottom="10dp"
-                android:numColumns="4"
-                >
 
-            </GridView>
 
 
 
@@ -213,15 +208,25 @@
                 android:background="@color/control"
                 ></LinearLayout>
 
-            <GridView
+            <com.facedetection.sugihart.facedetection.MyGridView
+                android:id="@+id/grid_phone"
+                android:stretchMode="columnWidth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:numColumns="4"
+                />
+
+            <com.facedetection.sugihart.facedetection.MyGridView
                 android:id="@+id/grid"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
+                android:stretchMode="columnWidth"
                 android:layout_marginBottom="10dp"
                 android:numColumns="4"
                 >
 
-            </GridView>
+            </com.facedetection.sugihart.facedetection.MyGridView>
         </LinearLayout>
 
             <Button
